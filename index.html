@@ -553,6 +553,124 @@ textarea.inp { min-height:88px; resize:vertical; }
 .ctr-n.gn { color:var(--gr); } .ctr-n.sm { font-size:28px; color:var(--tx3); } .ctr-n.rd { font-size:28px; color:var(--re); }
 .ctr-l { font-size:10px; color:var(--tx3); text-transform:uppercase; letter-spacing:.8px; font-weight:500; }
 
+/*════════════════ CALL FLOW ════════════════*/
+.cf-wrap { padding:6px 0 4px; }
+/* Progress breadcrumb */
+.cf-crumb {
+  display:flex; align-items:center; justify-content:center;
+  gap:0; margin-bottom:14px;
+}
+.cf-crumb-step {
+  display:flex; align-items:center; gap:5px;
+  font-size:10px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.6px; color:var(--tx4);
+  padding:5px 10px; border-radius:var(--rx);
+  transition: color .2s, background .2s;
+}
+.cf-crumb-step.active { color:var(--or); background:var(--or10); }
+.cf-crumb-step.done   { color:var(--gr); }
+.cf-crumb-step .cf-dot {
+  width:7px; height:7px; border-radius:50%;
+  background:var(--bd2); flex-shrink:0;
+  transition: background .2s;
+}
+.cf-crumb-step.active .cf-dot { background:var(--or); }
+.cf-crumb-step.done   .cf-dot { background:var(--gr); }
+.cf-crumb-arrow { font-size:14px; color:var(--bd2); padding:0 2px; flex-shrink:0; }
+/* Panels */
+.cf-panel { display:none; flex-direction:column; align-items:center; gap:10px; animation: cfIn .22s ease; }
+.cf-panel.visible { display:flex; }
+@keyframes cfIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:none; } }
+.cf-label {
+  font-size:11px; font-weight:700; text-transform:uppercase;
+  letter-spacing:.8px; color:var(--tx3); margin-bottom:2px;
+}
+/* Main CTA — Step 0 */
+.cf-btn-launch {
+  width:100%; padding:20px 16px; border-radius:14px;
+  border:none; cursor:pointer; display:flex; flex-direction:column;
+  align-items:center; gap:4px;
+  background: linear-gradient(135deg, var(--or) 0%, var(--or-d) 100%);
+  box-shadow: 0 4px 20px rgba(255,98,0,.30), 0 1px 3px rgba(255,98,0,.20);
+  transition: transform .14s ease, box-shadow .14s ease;
+}
+.cf-btn-launch:hover  { transform:translateY(-2px); box-shadow: 0 8px 28px rgba(255,98,0,.38); }
+.cf-btn-launch:active { transform:scale(.97); }
+.cf-btn-launch .cf-icon { font-size:32px; line-height:1; }
+.cf-btn-launch .cf-main-lbl { font-family:'Bricolage Grotesque',sans-serif; font-size:16px; font-weight:800; color:#fff; letter-spacing:.3px; }
+.cf-btn-launch .cf-sub-lbl  { font-size:10.5px; color:rgba(255,255,255,.65); font-weight:500; }
+/* Step 2 row — 2 choices */
+.cf-row2 { display:grid; grid-template-columns:1fr 1fr; gap:8px; width:100%; }
+/* Step 3 row — 3 choices */
+.cf-row3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; width:100%; }
+/* Generic choice button */
+.cf-btn {
+  border:none; border-radius:12px; cursor:pointer; padding:14px 8px;
+  display:flex; flex-direction:column; align-items:center; gap:5px;
+  font-family:inherit; transition: transform .12s ease, box-shadow .12s ease;
+}
+.cf-btn:hover  { transform:translateY(-2px); box-shadow:var(--e2); }
+.cf-btn:active { transform:scale(.95); }
+.cf-btn .cf-b-icon { font-size:22px; line-height:1; }
+.cf-btn .cf-b-lbl  { font-size:10.5px; font-weight:700; text-align:center; line-height:1.3; }
+/* Variants */
+.cf-btn-bl { background:var(--bl10); border:2px solid var(--blb); color:var(--bl); }
+.cf-btn-gy { background:var(--sur2); border:2px solid var(--bd);  color:var(--tx2); }
+.cf-btn-rd { background:var(--re10); border:2px solid var(--reb); color:var(--re); }
+.cf-btn-gr { background:var(--gr10); border:2px solid var(--grb); color:var(--gr); box-shadow:0 0 0 3px rgba(21,122,66,.08); }
+.cf-btn-am { background:var(--am10); border:2px solid var(--amb); color:var(--am); }
+/* Confirm flash */
+.cf-flash {
+  width:100%; border-radius:10px; padding:11px 14px;
+  font-size:13px; font-weight:700; text-align:center;
+  opacity:0; transform:translateY(-4px);
+  transition: opacity .2s ease, transform .2s ease;
+  pointer-events:none;
+}
+.cf-flash.show { opacity:1; transform:none; }
+.cf-flash.fl-miss { background:var(--sur2); color:var(--tx2); border:1.5px solid var(--bd2); }
+.cf-flash.fl-bar  { background:var(--sur2); color:var(--tx2); border:1.5px solid var(--bd2); }
+.cf-flash.fl-ref  { background:var(--re10); color:var(--re);  border:1.5px solid var(--reb); }
+.cf-flash.fl-r1p  { background:var(--gr10); color:var(--gr);  border:1.5px solid var(--grb); }
+/* Reset row */
+.cf-footer { display:flex; align-items:center; justify-content:flex-end; width:100%; padding-top:6px; border-top:1px solid var(--bd); }
+.cf-reset-btn { background:none; border:none; cursor:pointer; font-size:11px; color:var(--tx4); font-family:inherit; padding:4px 6px; border-radius:6px; transition:color .15s, background .15s; }
+.cf-reset-btn:hover { color:var(--re); background:var(--re10); }
+
+/*════════════════ ARBORESCENCE ════════════════*/
+.arbo-wrap { display:flex; flex-direction:column; align-items:center; padding:10px 4px 4px; overflow-x:auto; }
+.arbo-level { display:flex; align-items:flex-start; justify-content:center; width:100%; gap:0; }
+.arbo-branch { display:flex; flex-direction:column; align-items:center; flex:1; }
+.arbo-h-line-r { height:2px; background:var(--bd2); align-self:flex-end; width:50%; }
+.arbo-h-line-l { height:2px; background:var(--bd2); align-self:flex-start; width:50%; }
+.arbo-h-line-full { height:2px; background:var(--bd2); width:100%; }
+.arbo-v-line { width:2px; background:var(--bd2); }
+.arbo-node {
+  border:1.5px solid var(--bd); border-radius:var(--r);
+  background:var(--sur); padding:7px 10px; text-align:center;
+  box-shadow:var(--e1); min-width:72px; position:relative;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+.arbo-node:hover { transform:translateY(-1px); box-shadow:var(--e2); }
+.arbo-root { border-color:var(--or40); background:var(--or05); }
+.arbo-dec  { border-color:var(--blb);  background:var(--bl10); }
+.arbo-r1p  { border-color:var(--grb);  background:var(--gr10); }
+.arbo-ref  { border-color:var(--reb);  background:var(--re10); }
+.arbo-miss,.arbo-bar { border-color:var(--bd2); background:var(--sur2); }
+.arbo-nn { font-family:'Bricolage Grotesque',sans-serif; font-size:20px; font-weight:800; line-height:1.1; }
+.arbo-nn.lg { font-size:26px; }
+.arbo-nn.gn { color:var(--gr); } .arbo-nn.rd { color:var(--re); }
+.arbo-nn.bl { color:var(--bl); } .arbo-nn.or { color:var(--or); }
+.arbo-nn.gy { color:var(--tx3); }
+.arbo-pct { font-size:10.5px; font-weight:700; color:var(--tx3); margin-bottom:1px; line-height:1; }
+.arbo-lbl { font-size:9.5px; color:var(--tx3); margin-top:2px; font-weight:600; white-space:nowrap; letter-spacing:.2px; }
+/* Pie charts */
+.arbo-pie-wrap { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:14px; padding-top:12px; border-top:1.5px solid var(--bd); }
+.arbo-pie-box { text-align:center; }
+.arbo-pie-title { font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.8px; color:var(--tx3); margin-bottom:7px; }
+.arbo-pie-legend { display:flex; gap:7px; justify-content:center; flex-wrap:wrap; margin-top:6px; font-size:10px; }
+.arbo-leg-dot { width:8px; height:8px; border-radius:50%; display:inline-block; flex-shrink:0; }
+
 /*════════════════ EMAIL ════════════════*/
 .email-tpl {
   background:var(--bl10); border:1.5px solid var(--blb);
@@ -1275,11 +1393,6 @@ textarea.inp { min-height:88px; resize:vertical; }
   </div>
   <div class="g2">
     <div>
-      <div class="card mb16">
-        <div class="card-hd">📝 Notes d'Appel en Temps Réel</div>
-        <textarea class="inp" rows="6" placeholder="Notez ici en temps réel :&#10;• Douleurs exprimées (ses propres mots — ce sont vos meilleurs arguments)&#10;• Ton et attitude générale&#10;• Objections soulevées et réponses apportées&#10;• Opérateur actuel, volume lignes, échéance contrat&#10;&#10;→ Ces notes alimenteront la fiche R1P ci-dessous."></textarea>
-      </div>
-
       <!-- FICHE R1P -->
       <div style="background:var(--or10);border:1.5px solid var(--or40);border-radius:var(--r);padding:18px 18px 14px;box-shadow:var(--e1)">
         <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--or);margin-bottom:14px;display:flex;align-items:center;gap:8px">📋 Fiche R1P — À remplir &amp; copier pour le CRM<span style="flex:1;height:1px;background:var(--or40);display:block"></span></div>
@@ -1347,21 +1460,202 @@ textarea.inp { min-height:88px; resize:vertical; }
           <div id="ratioDecroch" style="background:var(--bl10);border:1.5px solid var(--blb);border-radius:var(--rs);padding:8px;text-align:center;font-size:12px;color:var(--bl)">Taux décrochage : —</div>
           <div id="ratioD" style="background:var(--gr10);border:1.5px solid var(--grb);border-radius:var(--rs);padding:8px;text-align:center;font-size:12px;color:var(--gr)">Taux R1P : —</div>
         </div>
-        <!-- Buttons row 1 -->
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px">
-          <button class="btn btn-or" onclick="addC('cntA')">📞 Appel tenté</button>
-          <button class="btn" style="background:var(--bl10);color:var(--bl);border:1.5px solid var(--blb)" onclick="addC('cntD')">☎️ Décroché</button>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:6px">
-          <button class="btn btn-ok" onclick="addC('cntR')">✅ R1P Obtenu</button>
-          <button class="btn btn-gh" onclick="addC('cntN')">📵 Sans réponse</button>
-        </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px">
-          <button class="btn btn-gh" onclick="addC('cntB')">🔒 Barrage</button>
-          <button class="btn btn-gh" onclick="addC('cntX')">❌ Refus</button>
-          <button class="btn btn-gh" onclick="resetC()">↺ Reset</button>
+        <!-- ══ CALL FLOW GUIDÉ ══ -->
+        <div class="cf-wrap">
+
+          <!-- Breadcrumb progression -->
+          <div class="cf-crumb">
+            <div class="cf-crumb-step active" id="cfS0"><span class="cf-dot"></span>Appel</div>
+            <div class="cf-crumb-arrow">›</div>
+            <div class="cf-crumb-step" id="cfS1"><span class="cf-dot"></span>Décroché ?</div>
+            <div class="cf-crumb-arrow">›</div>
+            <div class="cf-crumb-step" id="cfS2"><span class="cf-dot"></span>Issue</div>
+          </div>
+
+          <!-- Flash de confirmation -->
+          <div class="cf-flash" id="cfFlash"></div>
+
+          <!-- ÉTAPE 0 : Lancer un appel -->
+          <div class="cf-panel visible" id="cfPanel0">
+            <button class="cf-btn-launch" onclick="cfLancer()">
+              <span class="cf-icon">📞</span>
+              <span class="cf-main-lbl">Nouvel appel</span>
+              <span class="cf-sub-lbl">Cliquez pour enregistrer un appel tenté</span>
+            </button>
+          </div>
+
+          <!-- ÉTAPE 1 : L'appel a-t-il décroché ? -->
+          <div class="cf-panel" id="cfPanel1">
+            <div class="cf-label">L'appel a-t-il décroché ?</div>
+            <div class="cf-row2">
+              <button class="cf-btn cf-btn-bl" onclick="cfDecro()">
+                <span class="cf-b-icon">☎️</span>
+                <span class="cf-b-lbl">Décroché</span>
+              </button>
+              <button class="cf-btn cf-btn-gy" onclick="cfSansRep()">
+                <span class="cf-b-icon">📵</span>
+                <span class="cf-b-lbl">Sans réponse</span>
+              </button>
+            </div>
+            <button class="cf-reset-btn" style="align-self:flex-end;font-size:10px;margin-top:-4px" onclick="cfAnnuler()">✕ Annuler cet appel</button>
+          </div>
+
+          <!-- ÉTAPE 2 : Issue du décroché -->
+          <div class="cf-panel" id="cfPanel2">
+            <div class="cf-label">Issue de la conversation</div>
+            <div class="cf-row3">
+              <button class="cf-btn cf-btn-gy" onclick="cfIssue('cntB','🔒 Barrage noté','fl-bar')">
+                <span class="cf-b-icon">🔒</span>
+                <span class="cf-b-lbl">Barrage</span>
+              </button>
+              <button class="cf-btn cf-btn-rd" onclick="cfIssue('cntX','❌ Refus enregistré','fl-ref')">
+                <span class="cf-b-icon">❌</span>
+                <span class="cf-b-lbl">Refus</span>
+              </button>
+              <button class="cf-btn cf-btn-gr" onclick="cfIssue('cntR','🎉 R1P obtenu !','fl-r1p')">
+                <span class="cf-b-icon">✅</span>
+                <span class="cf-b-lbl">R1P<br>obtenu</span>
+              </button>
+            </div>
+            <button class="cf-reset-btn" style="align-self:flex-end;font-size:10px;margin-top:-4px" onclick="cfAnnulerDecro()">✕ Annuler le décroché</button>
+          </div>
+
+          <!-- Footer reset -->
+          <div class="cf-footer">
+            <button class="cf-reset-btn" onclick="resetC()">↺ Reset session complète</button>
+          </div>
         </div>
       </div>
+
+      <!-- ════ ARBORESCENCE ════ -->
+      <div class="card mb16">
+        <div class="card-hd">🌿 Arborescence des Appels — Session</div>
+
+        <!-- Tree -->
+        <div class="arbo-wrap">
+          <!-- Root -->
+          <div class="arbo-node arbo-root" style="margin-bottom:0">
+            <div class="arbo-nn or lg" id="arboNA">0</div>
+            <div class="arbo-lbl">📞 Appels tentés</div>
+          </div>
+          <!-- v-line root -->
+          <div class="arbo-v-line" style="height:14px"></div>
+          <!-- Level 1 split -->
+          <div class="arbo-level">
+            <!-- Left: Sans réponse -->
+            <div class="arbo-branch">
+              <div class="arbo-h-line-r"></div>
+              <div class="arbo-v-line" style="height:14px"></div>
+              <div class="arbo-node arbo-miss">
+                <div class="arbo-pct" id="arboNEp">—</div>
+                <div class="arbo-nn gy" id="arboNN">0</div>
+                <div class="arbo-lbl">📵 Sans réponse</div>
+              </div>
+            </div>
+            <!-- Right: Décroché -->
+            <div class="arbo-branch">
+              <div class="arbo-h-line-l"></div>
+              <div class="arbo-v-line" style="height:14px"></div>
+              <div class="arbo-node arbo-dec">
+                <div class="arbo-pct" id="arboNDp">—</div>
+                <div class="arbo-nn bl" id="arboNDv">0</div>
+                <div class="arbo-lbl">☎️ Décroché</div>
+              </div>
+              <!-- v-line to level 2 -->
+              <div class="arbo-v-line" style="height:14px"></div>
+              <!-- Level 2 split: Barrage / Refus / R1P -->
+              <div class="arbo-level" style="width:100%">
+                <!-- Barrage -->
+                <div class="arbo-branch">
+                  <div class="arbo-h-line-r"></div>
+                  <div class="arbo-v-line" style="height:12px"></div>
+                  <div class="arbo-node arbo-bar">
+                    <div class="arbo-pct" id="arboBp">—</div>
+                    <div class="arbo-nn gy" id="arboB">0</div>
+                    <div class="arbo-lbl">🔒 Barrage</div>
+                  </div>
+                </div>
+                <!-- Refus -->
+                <div class="arbo-branch">
+                  <div class="arbo-h-line-full"></div>
+                  <div class="arbo-v-line" style="height:12px"></div>
+                  <div class="arbo-node arbo-ref">
+                    <div class="arbo-pct" id="arboXp">—</div>
+                    <div class="arbo-nn rd" id="arboX">0</div>
+                    <div class="arbo-lbl">❌ Refus</div>
+                  </div>
+                </div>
+                <!-- R1P -->
+                <div class="arbo-branch">
+                  <div class="arbo-h-line-l"></div>
+                  <div class="arbo-v-line" style="height:12px"></div>
+                  <div class="arbo-node arbo-r1p">
+                    <div class="arbo-pct" id="arboRp">—</div>
+                    <div class="arbo-nn gn" id="arboR">0</div>
+                    <div class="arbo-lbl">✅ R1P obtenu</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pie charts -->
+        <div class="arbo-pie-wrap">
+          <!-- Pie 1: Décroché vs Sans réponse -->
+          <div class="arbo-pie-box">
+            <div class="arbo-pie-title">Tentatives</div>
+            <svg viewBox="0 0 120 120" width="110" height="110" style="display:block;margin:0 auto;overflow:visible">
+              <circle cx="60" cy="60" r="46" fill="none" stroke="var(--bd)" stroke-width="20"/>
+              <!-- Sans réponse -->
+              <circle id="p1miss" cx="60" cy="60" r="46" fill="none" stroke="#94A3B8" stroke-width="20"
+                stroke-dasharray="0 289.3" stroke-dashoffset="72.3"
+                transform="rotate(-90 60 60)" style="transition:stroke-dasharray .7s cubic-bezier(.4,0,.2,1),stroke-dashoffset .7s cubic-bezier(.4,0,.2,1)"/>
+              <!-- Décroché -->
+              <circle id="p1dec" cx="60" cy="60" r="46" fill="none" stroke="#1848A0" stroke-width="20"
+                stroke-dasharray="0 289.3" stroke-dashoffset="72.3"
+                transform="rotate(-90 60 60)" style="transition:stroke-dasharray .7s cubic-bezier(.4,0,.2,1),stroke-dashoffset .7s cubic-bezier(.4,0,.2,1)"/>
+              <text x="60" y="57" text-anchor="middle" font-family="'Bricolage Grotesque',sans-serif" font-size="16" font-weight="800" fill="var(--bl)">
+                <tspan x="60" id="pie1pct">—</tspan>
+              </text>
+              <text x="60" y="70" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="8" fill="var(--tx3)">décroché</text>
+            </svg>
+            <div class="arbo-pie-legend">
+              <span style="display:flex;align-items:center;gap:4px"><span class="arbo-leg-dot" style="background:#1848A0"></span>Décroché</span>
+              <span style="display:flex;align-items:center;gap:4px"><span class="arbo-leg-dot" style="background:#94A3B8"></span>Sans rép.</span>
+            </div>
+          </div>
+          <!-- Pie 2: R1P / Refus / Barrage sur décrochés -->
+          <div class="arbo-pie-box">
+            <div class="arbo-pie-title">Décrochés</div>
+            <svg viewBox="0 0 120 120" width="110" height="110" style="display:block;margin:0 auto;overflow:visible">
+              <circle cx="60" cy="60" r="46" fill="none" stroke="var(--bd)" stroke-width="20"/>
+              <!-- Barrage -->
+              <circle id="p2bar" cx="60" cy="60" r="46" fill="none" stroke="#94A3B8" stroke-width="20"
+                stroke-dasharray="0 289.3" stroke-dashoffset="72.3"
+                transform="rotate(-90 60 60)" style="transition:stroke-dasharray .7s cubic-bezier(.4,0,.2,1),stroke-dashoffset .7s cubic-bezier(.4,0,.2,1)"/>
+              <!-- Refus -->
+              <circle id="p2ref" cx="60" cy="60" r="46" fill="none" stroke="#C42018" stroke-width="20"
+                stroke-dasharray="0 289.3" stroke-dashoffset="72.3"
+                transform="rotate(-90 60 60)" style="transition:stroke-dasharray .7s cubic-bezier(.4,0,.2,1),stroke-dashoffset .7s cubic-bezier(.4,0,.2,1)"/>
+              <!-- R1P -->
+              <circle id="p2r1p" cx="60" cy="60" r="46" fill="none" stroke="#157A42" stroke-width="20"
+                stroke-dasharray="0 289.3" stroke-dashoffset="72.3"
+                transform="rotate(-90 60 60)" style="transition:stroke-dasharray .7s cubic-bezier(.4,0,.2,1),stroke-dashoffset .7s cubic-bezier(.4,0,.2,1)"/>
+              <text x="60" y="57" text-anchor="middle" font-family="'Bricolage Grotesque',sans-serif" font-size="16" font-weight="800" fill="var(--gr)">
+                <tspan x="60" id="pie2pct">—</tspan>
+              </text>
+              <text x="60" y="70" text-anchor="middle" font-family="'DM Sans',sans-serif" font-size="8" fill="var(--tx3)">R1P</text>
+            </svg>
+            <div class="arbo-pie-legend">
+              <span style="display:flex;align-items:center;gap:4px"><span class="arbo-leg-dot" style="background:#157A42"></span>R1P</span>
+              <span style="display:flex;align-items:center;gap:4px"><span class="arbo-leg-dot" style="background:#C42018"></span>Refus</span>
+              <span style="display:flex;align-items:center;gap:4px"><span class="arbo-leg-dot" style="background:#94A3B8"></span>Barrage</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
       <div class="card mb16">
         <div class="card-hd">✅ Checklist — Avant de Raccrocher</div>
         <div style="display:flex;flex-direction:column;gap:7px">
@@ -1508,11 +1802,83 @@ function updateScore() {
   }
 }
 
+// ══════════ CALL FLOW GUIDÉ ══════════
+let _cfStep = 0;
+
+function cfGoto(step) {
+  [0,1,2].forEach(i => {
+    const p = document.getElementById('cfPanel'+i);
+    const s = document.getElementById('cfS'+i);
+    if (!p || !s) return;
+    p.classList.toggle('visible', i === step);
+    s.classList.remove('active','done');
+    if (i === step) s.classList.add('active');
+    else if (i < step) s.classList.add('done');
+  });
+  _cfStep = step;
+}
+
+function cfFlash(msg, cls) {
+  const el = document.getElementById('cfFlash');
+  if (!el) return;
+  el.className = 'cf-flash ' + cls;
+  el.textContent = msg;
+  void el.offsetWidth; // reflow
+  el.classList.add('show');
+  clearTimeout(el._t);
+  el._t = setTimeout(() => { el.classList.remove('show'); }, 2200);
+}
+
+function cfLancer() {
+  _inc('cntA');
+  cfGoto(1);
+}
+
+function cfDecro() {
+  _inc('cntD');
+  cfGoto(2);
+}
+
+function cfSansRep() {
+  _inc('cntN');
+  cfFlash('📵 Sans réponse enregistré', 'fl-miss');
+  cfGoto(0);
+}
+
+function cfIssue(id, msg, cls) {
+  _inc(id);
+  cfFlash(msg, cls);
+  cfGoto(0);
+}
+
+function cfAnnuler() {
+  // Undo the appel tenté
+  const el = document.getElementById('cntA');
+  if (el) { const v = parseInt(el.textContent)||0; el.textContent = Math.max(0, v-1); }
+  updateRatios(); updateArbo();
+  cfGoto(0);
+}
+
+function cfAnnulerDecro() {
+  // Undo the décroché (keep appel tenté)
+  const el = document.getElementById('cntD');
+  if (el) { const v = parseInt(el.textContent)||0; el.textContent = Math.max(0, v-1); }
+  updateRatios(); updateArbo();
+  cfGoto(1);
+}
+
+function _inc(id) {
+  const el = document.getElementById(id);
+  if (el) el.textContent = (parseInt(el.textContent)||0) + 1;
+  updateRatios(); updateArbo();
+}
+
 function addC(id) {
   const el = document.getElementById(id);
   if (!el) return;
   el.textContent = parseInt(el.textContent) + 1;
   updateRatios();
+  updateArbo();
 }
 function updateRatios() {
   const g = id => { const e = document.getElementById(id); return e ? parseInt(e.textContent)||0 : 0; };
@@ -1545,6 +1911,71 @@ function resetC() {
   const rDec = document.getElementById('ratioDecroch');
   if (rD) rD.textContent = 'Taux R1P : —';
   if (rDec) rDec.textContent = 'Taux décrochage : —';
+  cfGoto(0);
+  updateArbo();
+}
+
+function updateArbo() {
+  const g = id => { const e = document.getElementById(id); return e ? parseInt(e.textContent)||0 : 0; };
+  const a = g('cntA'), d = g('cntD'), r = g('cntR'), n = g('cntN'), b = g('cntB'), x = g('cntX');
+  const set = (id, val) => { const e = document.getElementById(id); if(e) e.textContent = val; };
+
+  // — Tree node values —
+  set('arboNA',  a);
+  set('arboNN',  n);
+  set('arboNDv', d);
+  set('arboB',   b);
+  set('arboX',   x);
+  set('arboR',   r);
+
+  // — Percentages on tree —
+  const pN   = a ? Math.round(n/a*100) : null;
+  const pD   = a ? Math.round(d/a*100) : null;
+  const pB   = d ? Math.round(b/d*100) : null;
+  const pX   = d ? Math.round(x/d*100) : null;
+  const pR   = d ? Math.round(r/d*100) : null;
+  set('arboNEp', pN !== null ? pN+'%'  : '—');
+  set('arboNDp', pD !== null ? pD+'%'  : '—');
+  set('arboBp',  pB !== null ? pB+'%'  : '—');
+  set('arboXp',  pX !== null ? pX+'%'  : '—');
+  set('arboRp',  pR !== null ? pR+'%'  : '—');
+
+  // — SVG Pie charts (r=46 → C=2π×46≈289.3) —
+  const C = 289.3;
+
+  // Pie 1 : Décroché (blue) puis Sans réponse (gray) sur base = tentés
+  const p1dec  = document.getElementById('p1dec');
+  const p1miss = document.getElementById('p1miss');
+  if (a > 0) {
+    const decLen  = C * d / a;
+    const missLen = C * n / a;
+    if (p1dec)  { p1dec.setAttribute('stroke-dasharray',  decLen.toFixed(1)+' '+(C-decLen).toFixed(1)); p1dec.setAttribute('stroke-dashoffset','72.3'); }
+    if (p1miss) { p1miss.setAttribute('stroke-dasharray', missLen.toFixed(1)+' '+(C-missLen).toFixed(1)); p1miss.setAttribute('stroke-dashoffset', (72.3 - decLen).toFixed(1)); }
+    set('pie1pct', (pD||0)+'%');
+  } else {
+    if (p1dec)  { p1dec.setAttribute('stroke-dasharray','0 289.3');  p1dec.setAttribute('stroke-dashoffset','72.3'); }
+    if (p1miss) { p1miss.setAttribute('stroke-dasharray','0 289.3'); p1miss.setAttribute('stroke-dashoffset','72.3'); }
+    set('pie1pct','—');
+  }
+
+  // Pie 2 : R1P (green) → Refus (red) → Barrage (gray) sur base = décrochés
+  const p2r1p = document.getElementById('p2r1p');
+  const p2ref = document.getElementById('p2ref');
+  const p2bar = document.getElementById('p2bar');
+  if (d > 0) {
+    const r1pLen = C * r / d;
+    const refLen = C * x / d;
+    const barLen = C * b / d;
+    if (p2r1p) { p2r1p.setAttribute('stroke-dasharray', r1pLen.toFixed(1)+' '+(C-r1pLen).toFixed(1)); p2r1p.setAttribute('stroke-dashoffset','72.3'); }
+    if (p2ref) { p2ref.setAttribute('stroke-dasharray', refLen.toFixed(1)+' '+(C-refLen).toFixed(1)); p2ref.setAttribute('stroke-dashoffset', (72.3 - r1pLen).toFixed(1)); }
+    if (p2bar) { p2bar.setAttribute('stroke-dasharray', barLen.toFixed(1)+' '+(C-barLen).toFixed(1)); p2bar.setAttribute('stroke-dashoffset', (72.3 - r1pLen - refLen).toFixed(1)); }
+    set('pie2pct', (pR||0)+'%');
+  } else {
+    if (p2r1p) { p2r1p.setAttribute('stroke-dasharray','0 289.3'); p2r1p.setAttribute('stroke-dashoffset','72.3'); }
+    if (p2ref) { p2ref.setAttribute('stroke-dasharray','0 289.3'); p2ref.setAttribute('stroke-dashoffset','72.3'); }
+    if (p2bar) { p2bar.setAttribute('stroke-dasharray','0 289.3'); p2bar.setAttribute('stroke-dashoffset','72.3'); }
+    set('pie2pct','—');
+  }
 }
 
 function copierR1P() {
