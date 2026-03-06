@@ -308,6 +308,15 @@ body {
 .stab.on { background:var(--or); border-color:var(--or); color:#fff; box-shadow:0 4px 18px var(--or40); }
 .spg { display:none; }
 .spg.on { display:block; animation:fi .18s ease; }
+/* ── Email scenario tabs ── */
+.etab {
+  padding:6px 13px; border-radius:var(--rx); border:1.5px solid var(--bd);
+  background:var(--sur); color:var(--tx2); font-size:12px; font-weight:600;
+  cursor:pointer; transition:all .15s; font-family:inherit;
+}
+.etab:hover { border-color:var(--or25); background:var(--or05); color:var(--or); }
+.etab.on { background:var(--or); border-color:var(--or); color:#fff; box-shadow:0 4px 14px var(--or40); }
+
 
 /*════════════════ PHASE BLOCKS ════════════════*/
 .ph-block {
@@ -1396,11 +1405,6 @@ textarea.inp { min-height:88px; resize:vertical; }
       <!-- FICHE R1P -->
       <div style="background:var(--or10);border:1.5px solid var(--or40);border-radius:var(--r);padding:18px 18px 14px;box-shadow:var(--e1)">
         <div style="font-family:'Bricolage Grotesque',sans-serif;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--or);margin-bottom:14px;display:flex;align-items:center;gap:8px">📋 Fiche R1P — À remplir &amp; copier pour le CRM<span style="flex:1;height:1px;background:var(--or40);display:block"></span></div>
-        <label class="flbl">Société + Secteur d'activité</label><input id="r1_societe" class="inp" placeholder="Dupont SARL — BTP Normandie">
-        <label class="flbl">Décideur — Nom, Prénom, Fonction</label><input id="r1_decideur" class="inp" placeholder="Jean Martin — Gérant">
-        <label class="flbl">Tél direct + Email</label><input id="r1_contact" class="inp" placeholder="06 XX XX XX XX · martin@dupont.fr">
-        <label class="flbl">Adresse exacte du R1P</label><input id="r1_adresse" class="inp" placeholder="12 rue des Artisans, 76000 Rouen">
-        <label class="flbl">Date &amp; Heure du R1P</label><input id="r1_date" class="inp" placeholder="Mardi 20 mai à 10h00">
         <label class="flbl">Opérateur actuel + Nb de lignes</label><input id="r1_operateur" class="inp" placeholder="SFR · 6 mobiles pro + Fibre + Standard">
         <label class="flbl">Fin de contrat estimée</label><input id="r1_echeance" class="inp" placeholder="Décembre 2025 / Ne sait pas">
         <label class="flbl">Scénario d'entrée utilisé</label>
@@ -1424,22 +1428,53 @@ textarea.inp { min-height:88px; resize:vertical; }
       </div>
 
       <div class="card mt16">
-        <div class="card-hd">📧 Email de Confirmation</div>
-        <div class="email-tpl">
-          <strong>Objet : Confirmation RDV — Audit Télécom OOB × [Nom Société]</strong><br><br>
-          Bonjour [Prénom],<br><br>
-          Suite à notre échange, je vous confirme notre rendez-vous le <strong>[date] à [heure]</strong> dans vos locaux.<br><br>
-          Je viendrai afin d'analyser votre situation télécoms actuelle et des pistes d'optimisation personnalisées pour votre entreprise afin d'y répondre avec des solutions Orange.<br><br>
-          Merci de vous munir de vos <strong>factures télécoms mensuelles actuelles</strong> et vos engagements restants. Ce qui me permettra d'être immédiatement opérationnel et d'avancer rapidement sur les sujets afin de vous faire gagner du temps.<br><br>
-          À très bientôt,<br>
-          <strong>[Prénom Nom]</strong><br>
-          OOB — Distributeur Expert Certifié Orange<br>
-          Normandie &amp; Île-de-France<br>
-          [Mobile direct] · [Email]
+        <div class="card-hd">📧 Email de Confirmation — Par scénario</div>
+
+        <!-- ── ONGLETS SCÉNARIOS ── -->
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+          <button class="etab on" data-escn="orange"   onclick="switchEmailTab('orange',this)">🟠 Client Orange</button>
+          <button class="etab"    data-escn="prospect" onclick="switchEmailTab('prospect',this)">🔵 Conquête concurrent</button>
+          <button class="etab"    data-escn="cyber"    onclick="switchEmailTab('cyber',this)">🟢 Cybersécurité</button>
+          <button class="etab"    data-escn="cuivre"   onclick="switchEmailTab('cuivre',this)">🟤 Migration cuivre</button>
         </div>
-        <div class="bn info mt12"><span class="bni">📱</span><div><strong>SMS J-1 à 17h :</strong> "Bonjour [Prénom], je vous confirme notre rencontre demain à [heure]. Je serai là pour notre audit télécom. À demain ! [Prénom] — OOB"</div></div>
-      </div>
-    </div>
+
+        <!-- ── CHAMPS COMMUNS ── -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px">
+          <div>
+            <label class="flbl">Prénom du prospect</label>
+            <input class="inp" id="em_prenom" placeholder="Ex : Jean" oninput="updateEmailPreview()">
+          </div>
+          <div>
+            <label class="flbl">Nom de la société</label>
+            <input class="inp" id="em_societe" placeholder="Ex : Dupont SARL" oninput="updateEmailPreview()">
+          </div>
+          <div>
+            <label class="flbl">Date du RDV</label>
+            <input class="inp" id="em_date" placeholder="Ex : mardi 20 mai" oninput="updateEmailPreview()">
+          </div>
+          <div>
+            <label class="flbl">Heure du RDV</label>
+            <input class="inp" id="em_heure" placeholder="Ex : 10h00" oninput="updateEmailPreview()">
+          </div>
+        </div>
+
+        <!-- ── APERÇU LIVE ── -->
+        <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;font-weight:700;color:var(--tx3);margin-bottom:6px">Aperçu de l'email</div>
+        <div class="email-tpl" id="emailPreviewBox">
+          <span style="color:var(--tx3);font-style:italic">Sélectionnez un scénario et remplissez les champs…</span>
+        </div>
+
+        <!-- ── BOUTON COPIER ── -->
+        <div style="display:flex;gap:8px;margin-top:10px;align-items:center">
+          <button id="btnEmailCopy" class="btn btn-or" style="font-size:13px;flex:1" onclick="copierEmail()">
+            📬 Copier l'email — prêt pour Outlook
+          </button>
+          <div id="emailCopyConfirm" style="display:none;background:var(--gr10);border:1.5px solid var(--grb);border-radius:var(--rs);padding:9px 14px;font-size:12.5px;color:var(--gr);font-weight:600;white-space:nowrap">✅ Copié !</div>
+        </div>
+
+        <!-- ── SMS J-1 ── -->
+        <div class="bn info mt12"><span class="bni">📱</span><div><strong>SMS J-1 à 17h :</strong> "Bonjour <span id="smsPrenom" style="font-weight:700">[Prénom]</span>, je vous confirme notre rencontre demain à <span id="smsHeure" style="font-weight:700">[heure]</span>. Je serai là pour notre audit télécom. À demain — OOB"</div></div>
+      </div>    </div>
     <div>
       <div class="card mb16">
         <div class="card-hd">⚡ Statistiques de Session</div>
@@ -1984,9 +2019,7 @@ function copierR1P() {
   const ts = now.toLocaleDateString('fr-FR') + ' à ' + now.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
   let lines = ['=== R1P OOB — Fiche Compte Rendu ===', 'Créé le : ' + ts, ''];
   const fields = [
-    ['SOCIÉTÉ', 'r1_societe'], ['DÉCIDEUR', 'r1_decideur'],
-    ['CONTACT', 'r1_contact'], ['ADRESSE R1P', 'r1_adresse'],
-    ['DATE / HEURE', 'r1_date'], ['OPÉRATEUR', 'r1_operateur'],
+    ['OPÉRATEUR', 'r1_operateur'],
     ['FIN CONTRAT', 'r1_echeance'], ['SCÉNARIO', 'r1_scenario']
   ];
   fields.forEach(([lbl, id]) => { const val = v(id); if (val) lines.push(lbl.padEnd(14) + ': ' + val); });
@@ -2011,6 +2044,101 @@ function copierR1P() {
     document.body.removeChild(ta);
     const conf = document.getElementById('r1pConfirm');
     if (conf) conf.style.display='block';
+  });
+}
+
+
+/* ══ EMAIL CONFIRMATION INTERACTIF — PAR SCÉNARIO ══ */
+
+let emailScenario = 'orange';
+
+const EMAIL_TEMPLATES = {
+  orange: {
+    objet: (p, s) => "Confirmation RDV \u2014 Optimisation Compte Orange \xd7 " + (s || "[Soci\xe9t\xe9]"),
+    corps: (p, s, d, h) =>
+      "Bonjour " + (p || "[Pr\xe9nom]") + ",\n\n" +
+      "Suite \xe0 notre \xe9change, je vous confirme notre rendez-vous le " + (d || "[date]") + " \xe0 " + (h || "[heure]") + " dans vos locaux.\n\n" +
+      "Je viendrai r\xe9aliser un audit complet de votre compte Orange actuel \u2014 lignes mobiles, internet, standard \u2014 pour identifier les optimisations disponibles et m\u2019assurer que vous b\xe9n\xe9ficiez des meilleures conditions en vigueur.\n\n" +
+      "Merci de vous munir de vos factures t\xe9l\xe9coms r\xe9centes si possible. Cela me permettra d\u2019\xeatre op\xe9rationnel imm\xe9diatement et de vous faire gagner du temps.\n\n" +
+      "\xc0 tr\xe8s bient\xf4t,"
+  },
+  prospect: {
+    objet: (p, s) => "Confirmation RDV \u2014 Audit T\xe9l\xe9com OOB \xd7 " + (s || "[Soci\xe9t\xe9]"),
+    corps: (p, s, d, h) =>
+      "Bonjour " + (p || "[Pr\xe9nom]") + ",\n\n" +
+      "Suite \xe0 notre \xe9change, je vous confirme notre rendez-vous le " + (d || "[date]") + " \xe0 " + (h || "[heure]") + " dans vos locaux.\n\n" +
+      "Je viendrai effectuer un benchmark objectif de votre situation t\xe9l\xe9com actuelle face aux offres Orange Pro. L\u2019objectif est simple : vous donner une vision claire et chiffr\xe9e de ce que vous gagneriez \xe0 changer \u2014 ou confirmer que vous \xeates d\xe9j\xe0 au meilleur niveau.\n\n" +
+      "Merci de vous munir de vos factures t\xe9l\xe9coms mensuelles actuelles et de vos engagements restants. Ce qui me permettra d\u2019\xeatre imm\xe9diatement op\xe9rationnel.\n\n" +
+      "\xc0 tr\xe8s bient\xf4t,"
+  },
+  cyber: {
+    objet: (p, s) => "Confirmation RDV \u2014 Diagnostic Cybers\xe9curit\xe9 OOB \xd7 " + (s || "[Soci\xe9t\xe9]"),
+    corps: (p, s, d, h) =>
+      "Bonjour " + (p || "[Pr\xe9nom]") + ",\n\n" +
+      "Suite \xe0 notre \xe9change, je vous confirme notre rendez-vous le " + (d || "[date]") + " \xe0 " + (h || "[heure]") + " dans vos locaux.\n\n" +
+      "Je viendrai r\xe9aliser un diagnostic cybers\xe9curit\xe9 de votre infrastructure actuelle. Nous ferons le point sur votre niveau de protection r\xe9el \u2014 pare-feu, sauvegardes, acc\xe8s distants \u2014 et je vous pr\xe9senterai les solutions Orange d\xe9di\xe9es aux TPE/PME pour s\xe9curiser votre activit\xe9 sans complexit\xe9.\n\n" +
+      "Aucun pr\xe9requis de votre c\xf4t\xe9 \u2014 je m\u2019adapte \xe0 votre environnement.\n\n" +
+      "\xc0 tr\xe8s bient\xf4t,"
+  },
+  cuivre: {
+    objet: (p, s) => "Confirmation RDV \u2014 Migration Fibre OOB \xd7 " + (s || "[Soci\xe9t\xe9]"),
+    corps: (p, s, d, h) =>
+      "Bonjour " + (p || "[Pr\xe9nom]") + ",\n\n" +
+      "Suite \xe0 notre \xe9change, je vous confirme notre rendez-vous le " + (d || "[date]") + " \xe0 " + (h || "[heure]") + " dans vos locaux.\n\n" +
+      "Je viendrai vous pr\xe9senter le plan de migration de votre ligne actuelle vers la Fibre Pro Orange, en anticipant la fermeture du r\xe9seau cuivre dans votre zone. L\u2019objectif est de planifier cette transition pour qu\u2019elle soit transparente pour votre activit\xe9 \u2014 z\xe9ro coupure, z\xe9ro interruption de service.\n\n" +
+      "Merci de noter le type de ligne que vous utilisez actuellement (ADSL, SDSL, RTC/standard analogique) si vous pouvez le retrouver facilement.\n\n" +
+      "\xc0 tr\xe8s bient\xf4t,"
+  }
+};
+
+function switchEmailTab(scn, btn) {
+  emailScenario = scn;
+  document.querySelectorAll('.etab').forEach(b => b.classList.remove('on'));
+  if (btn) btn.classList.add('on');
+  updateEmailPreview();
+}
+
+function vf(id) {
+  const el = document.getElementById(id);
+  return el ? el.value.trim() : '';
+}
+
+function updateEmailPreview() {
+  const prenom  = vf('em_prenom');
+  const societe = vf('em_societe');
+  const date    = vf('em_date');
+  const heure   = vf('em_heure');
+  const box = document.getElementById('emailPreviewBox');
+  if (!box) return;
+  const tpl = EMAIL_TEMPLATES[emailScenario] || EMAIL_TEMPLATES.orange;
+  const objet = tpl.objet(prenom, societe);
+  const corps = tpl.corps(prenom, societe, date, heure);
+  box.innerHTML = '<strong>Objet\u00a0: ' + objet + '</strong><br><br>' +
+    corps.replace(/\n\n/g, '<br><br>').replace(/\n/g, '<br>');
+  const smsP = document.getElementById('smsPrenom');
+  const smsH = document.getElementById('smsHeure');
+  if (smsP) smsP.textContent = prenom || '[Pr\xe9nom]';
+  if (smsH) smsH.textContent = heure  || '[heure]';
+}
+
+function copierEmail() {
+  const prenom  = vf('em_prenom');
+  const societe = vf('em_societe');
+  const date    = vf('em_date');
+  const heure   = vf('em_heure');
+  const tpl = EMAIL_TEMPLATES[emailScenario] || EMAIL_TEMPLATES.orange;
+  const objet = tpl.objet(prenom, societe);
+  const corps = tpl.corps(prenom, societe, date, heure);
+  const fullText = 'Objet : ' + objet + '\n\n' + corps;
+  const doConfirm = () => {
+    const c = document.getElementById('emailCopyConfirm');
+    if (c) { c.style.display = 'block'; setTimeout(() => { c.style.display = 'none'; }, 2800); }
+  };
+  navigator.clipboard.writeText(fullText).then(doConfirm).catch(() => {
+    const ta = document.createElement('textarea');
+    ta.value = fullText; ta.style.cssText = 'position:fixed;opacity:0';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy'); document.body.removeChild(ta);
+    doConfirm();
   });
 }
 
