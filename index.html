@@ -612,6 +612,8 @@ textarea.inp { min-height:88px; resize:vertical; }
 .cf-row2 { display:grid; grid-template-columns:1fr 1fr; gap:8px; width:100%; }
 /* Step 3 row — 3 choices */
 .cf-row3 { display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; width:100%; }
+/* Step 3 row — 4 choices (2x2) */
+.cf-row4 { display:grid; grid-template-columns:1fr 1fr; gap:8px; width:100%; }
 /* Generic choice button */
 .cf-btn {
   border:none; border-radius:12px; cursor:pointer; padding:14px 8px;
@@ -641,6 +643,7 @@ textarea.inp { min-height:88px; resize:vertical; }
 .cf-flash.fl-bar  { background:var(--sur2); color:var(--tx2); border:1.5px solid var(--bd2); }
 .cf-flash.fl-ref  { background:var(--re10); color:var(--re);  border:1.5px solid var(--reb); }
 .cf-flash.fl-r1p  { background:var(--gr10); color:var(--gr);  border:1.5px solid var(--grb); }
+.cf-flash.fl-rap  { background:var(--am10); color:var(--am);  border:1.5px solid var(--amb); }
 /* Reset row */
 .cf-footer { display:flex; align-items:center; justify-content:flex-end; width:100%; padding-top:6px; border-top:1px solid var(--bd); }
 .cf-reset-btn { background:none; border:none; cursor:pointer; font-size:11px; color:var(--tx4); font-family:inherit; padding:4px 6px; border-radius:6px; transition:color .15s, background .15s; }
@@ -665,12 +668,13 @@ textarea.inp { min-height:88px; resize:vertical; }
 .arbo-dec  { border-color:var(--blb);  background:var(--bl10); }
 .arbo-r1p  { border-color:var(--grb);  background:var(--gr10); }
 .arbo-ref  { border-color:var(--reb);  background:var(--re10); }
+.arbo-rap  { border-color:var(--amb);  background:var(--am10); }
 .arbo-miss,.arbo-bar { border-color:var(--bd2); background:var(--sur2); }
 .arbo-nn { font-family:'Bricolage Grotesque',sans-serif; font-size:20px; font-weight:800; line-height:1.1; }
 .arbo-nn.lg { font-size:26px; }
 .arbo-nn.gn { color:var(--gr); } .arbo-nn.rd { color:var(--re); }
 .arbo-nn.bl { color:var(--bl); } .arbo-nn.or { color:var(--or); }
-.arbo-nn.gy { color:var(--tx3); }
+.arbo-nn.gy { color:var(--tx3); } .arbo-nn.am { color:var(--am); }
 .arbo-pct { font-size:10.5px; font-weight:700; color:var(--tx3); margin-bottom:1px; line-height:1; }
 .arbo-lbl { font-size:9.5px; color:var(--tx3); margin-top:2px; font-weight:600; white-space:nowrap; letter-spacing:.2px; }
 /* Pie charts */
@@ -1485,10 +1489,11 @@ textarea.inp { min-height:88px; resize:vertical; }
           <div class="ctr"><div class="ctr-n gn" id="cntR">0</div><div class="ctr-l">R1P obtenus</div></div>
         </div>
         <!-- Row 2: secondary counters -->
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px">
           <div class="ctr"><div class="ctr-n sm" id="cntN">0</div><div class="ctr-l">Sans réponse</div></div>
           <div class="ctr"><div class="ctr-n sm" id="cntB">0</div><div class="ctr-l">Barrages</div></div>
           <div class="ctr"><div class="ctr-n rd" id="cntX">0</div><div class="ctr-l">Refus</div></div>
+          <div class="ctr"><div class="ctr-n sm" style="color:var(--am)" id="cntRC">0</div><div class="ctr-l">Rappels ultérieurs</div></div>
         </div>
         <!-- Ratio panels -->
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:10px">
@@ -1538,7 +1543,7 @@ textarea.inp { min-height:88px; resize:vertical; }
           <!-- ÉTAPE 2 : Issue du décroché -->
           <div class="cf-panel" id="cfPanel2">
             <div class="cf-label">Issue de la conversation</div>
-            <div class="cf-row3">
+            <div class="cf-row4">
               <button class="cf-btn cf-btn-gy" onclick="cfIssue('cntB','🔒 Barrage noté','fl-bar')">
                 <span class="cf-b-icon">🔒</span>
                 <span class="cf-b-lbl">Barrage</span>
@@ -1550,6 +1555,10 @@ textarea.inp { min-height:88px; resize:vertical; }
               <button class="cf-btn cf-btn-gr" onclick="cfIssue('cntR','🎉 R1P obtenu !','fl-r1p')">
                 <span class="cf-b-icon">✅</span>
                 <span class="cf-b-lbl">R1P<br>obtenu</span>
+              </button>
+              <button class="cf-btn cf-btn-am" onclick="cfIssue('cntRC','📅 Rappel ultérieur noté','fl-rap')">
+                <span class="cf-b-icon">📅</span>
+                <span class="cf-b-lbl">Rappel<br>ultérieur</span>
               </button>
             </div>
             <button class="cf-reset-btn" style="align-self:flex-end;font-size:10px;margin-top:-4px" onclick="cfAnnulerDecro()">✕ Annuler le décroché</button>
@@ -1630,6 +1639,16 @@ textarea.inp { min-height:88px; resize:vertical; }
                     <div class="arbo-lbl">✅ R1P obtenu</div>
                   </div>
                 </div>
+                <!-- Rappel ultérieur -->
+                <div class="arbo-branch">
+                  <div class="arbo-h-line-l"></div>
+                  <div class="arbo-v-line" style="height:12px"></div>
+                  <div class="arbo-node arbo-rap">
+                    <div class="arbo-pct" id="arboRCp">—</div>
+                    <div class="arbo-nn am" id="arboRC">0</div>
+                    <div class="arbo-lbl">📅 Rappel ulté.</div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -1660,7 +1679,7 @@ textarea.inp { min-height:88px; resize:vertical; }
               <span style="display:flex;align-items:center;gap:4px"><span class="arbo-leg-dot" style="background:#94A3B8"></span>Sans rép.</span>
             </div>
           </div>
-          <!-- Pie 2: R1P / Refus / Barrage sur décrochés -->
+          <!-- Pie 2: R1P / Refus / Barrage / Rappel sur décrochés -->
           <div class="arbo-pie-box">
             <div class="arbo-pie-title">Décrochés</div>
             <svg viewBox="0 0 120 120" width="110" height="110" style="display:block;margin:0 auto;overflow:visible">
@@ -1671,6 +1690,10 @@ textarea.inp { min-height:88px; resize:vertical; }
                 transform="rotate(-90 60 60)" style="transition:stroke-dasharray .7s cubic-bezier(.4,0,.2,1),stroke-dashoffset .7s cubic-bezier(.4,0,.2,1)"/>
               <!-- Refus -->
               <circle id="p2ref" cx="60" cy="60" r="46" fill="none" stroke="#C42018" stroke-width="20"
+                stroke-dasharray="0 289.3" stroke-dashoffset="72.3"
+                transform="rotate(-90 60 60)" style="transition:stroke-dasharray .7s cubic-bezier(.4,0,.2,1),stroke-dashoffset .7s cubic-bezier(.4,0,.2,1)"/>
+              <!-- Rappel -->
+              <circle id="p2rap" cx="60" cy="60" r="46" fill="none" stroke="#9A5F00" stroke-width="20"
                 stroke-dasharray="0 289.3" stroke-dashoffset="72.3"
                 transform="rotate(-90 60 60)" style="transition:stroke-dasharray .7s cubic-bezier(.4,0,.2,1),stroke-dashoffset .7s cubic-bezier(.4,0,.2,1)"/>
               <!-- R1P -->
@@ -1686,6 +1709,7 @@ textarea.inp { min-height:88px; resize:vertical; }
               <span style="display:flex;align-items:center;gap:4px"><span class="arbo-leg-dot" style="background:#157A42"></span>R1P</span>
               <span style="display:flex;align-items:center;gap:4px"><span class="arbo-leg-dot" style="background:#C42018"></span>Refus</span>
               <span style="display:flex;align-items:center;gap:4px"><span class="arbo-leg-dot" style="background:#94A3B8"></span>Barrage</span>
+              <span style="display:flex;align-items:center;gap:4px"><span class="arbo-leg-dot" style="background:#9A5F00"></span>Rappel</span>
             </div>
           </div>
         </div>
@@ -1939,7 +1963,7 @@ function updateRatios() {
 }
 
 function resetC() {
-  ['cntA','cntD','cntR','cntN','cntB','cntX'].forEach(id => {
+  ['cntA','cntD','cntR','cntN','cntB','cntX','cntRC'].forEach(id => {
     const el = document.getElementById(id); if (el) el.textContent = '0';
   });
   const rD = document.getElementById('ratioD');
@@ -1952,7 +1976,7 @@ function resetC() {
 
 function updateArbo() {
   const g = id => { const e = document.getElementById(id); return e ? parseInt(e.textContent)||0 : 0; };
-  const a = g('cntA'), d = g('cntD'), r = g('cntR'), n = g('cntN'), b = g('cntB'), x = g('cntX');
+  const a = g('cntA'), d = g('cntD'), r = g('cntR'), n = g('cntN'), b = g('cntB'), x = g('cntX'), rc = g('cntRC');
   const set = (id, val) => { const e = document.getElementById(id); if(e) e.textContent = val; };
 
   // — Tree node values —
@@ -1962,6 +1986,7 @@ function updateArbo() {
   set('arboB',   b);
   set('arboX',   x);
   set('arboR',   r);
+  set('arboRC',  rc);
 
   // — Percentages on tree —
   const pN   = a ? Math.round(n/a*100) : null;
@@ -1969,11 +1994,13 @@ function updateArbo() {
   const pB   = d ? Math.round(b/d*100) : null;
   const pX   = d ? Math.round(x/d*100) : null;
   const pR   = d ? Math.round(r/d*100) : null;
+  const pRC  = d ? Math.round(rc/d*100) : null;
   set('arboNEp', pN !== null ? pN+'%'  : '—');
   set('arboNDp', pD !== null ? pD+'%'  : '—');
   set('arboBp',  pB !== null ? pB+'%'  : '—');
   set('arboXp',  pX !== null ? pX+'%'  : '—');
   set('arboRp',  pR !== null ? pR+'%'  : '—');
+  set('arboRCp', pRC !== null ? pRC+'%' : '—');
 
   // — SVG Pie charts (r=46 → C=2π×46≈289.3) —
   const C = 289.3;
@@ -1993,21 +2020,25 @@ function updateArbo() {
     set('pie1pct','—');
   }
 
-  // Pie 2 : R1P (green) → Refus (red) → Barrage (gray) sur base = décrochés
+  // Pie 2 : R1P (green) → Refus (red) → Rappel (amber) → Barrage (gray) sur base = décrochés
   const p2r1p = document.getElementById('p2r1p');
   const p2ref = document.getElementById('p2ref');
   const p2bar = document.getElementById('p2bar');
+  const p2rap = document.getElementById('p2rap');
   if (d > 0) {
     const r1pLen = C * r / d;
     const refLen = C * x / d;
+    const rapLen = C * rc / d;
     const barLen = C * b / d;
     if (p2r1p) { p2r1p.setAttribute('stroke-dasharray', r1pLen.toFixed(1)+' '+(C-r1pLen).toFixed(1)); p2r1p.setAttribute('stroke-dashoffset','72.3'); }
     if (p2ref) { p2ref.setAttribute('stroke-dasharray', refLen.toFixed(1)+' '+(C-refLen).toFixed(1)); p2ref.setAttribute('stroke-dashoffset', (72.3 - r1pLen).toFixed(1)); }
-    if (p2bar) { p2bar.setAttribute('stroke-dasharray', barLen.toFixed(1)+' '+(C-barLen).toFixed(1)); p2bar.setAttribute('stroke-dashoffset', (72.3 - r1pLen - refLen).toFixed(1)); }
+    if (p2rap) { p2rap.setAttribute('stroke-dasharray', rapLen.toFixed(1)+' '+(C-rapLen).toFixed(1)); p2rap.setAttribute('stroke-dashoffset', (72.3 - r1pLen - refLen).toFixed(1)); }
+    if (p2bar) { p2bar.setAttribute('stroke-dasharray', barLen.toFixed(1)+' '+(C-barLen).toFixed(1)); p2bar.setAttribute('stroke-dashoffset', (72.3 - r1pLen - refLen - rapLen).toFixed(1)); }
     set('pie2pct', (pR||0)+'%');
   } else {
     if (p2r1p) { p2r1p.setAttribute('stroke-dasharray','0 289.3'); p2r1p.setAttribute('stroke-dashoffset','72.3'); }
     if (p2ref) { p2ref.setAttribute('stroke-dasharray','0 289.3'); p2ref.setAttribute('stroke-dashoffset','72.3'); }
+    if (p2rap) { p2rap.setAttribute('stroke-dasharray','0 289.3'); p2rap.setAttribute('stroke-dashoffset','72.3'); }
     if (p2bar) { p2bar.setAttribute('stroke-dasharray','0 289.3'); p2bar.setAttribute('stroke-dashoffset','72.3'); }
     set('pie2pct','—');
   }
